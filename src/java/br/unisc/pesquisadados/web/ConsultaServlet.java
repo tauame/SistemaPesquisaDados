@@ -5,6 +5,7 @@
  */
 package br.unisc.pesquisadados.web;
 
+import br.unisc.pesquisadados.db.ConsultaDB;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,8 +37,10 @@ public class ConsultaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
-            if (request.getParameter("acao").equals("inserir")) {
+            
+            ConsultaDB db = new ConsultaDB();
+            String acao = request.getParameter("acao");
+            if (acao != null && acao.equals("inserir")) {
                 
                 URL url = new URL("http://socialmention.com/search?q=" + request.getParameter("busca") + "&t=all&f=csv");
 
