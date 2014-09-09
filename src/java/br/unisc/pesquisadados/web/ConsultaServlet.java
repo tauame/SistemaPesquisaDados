@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.unisc.pesquisadados.web;
 
 import java.io.BufferedReader;
@@ -37,32 +36,31 @@ public class ConsultaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            URL url = new URL("http://socialmention.com/search?q="+request.getParameter("busca")+"&t=all&f=csv");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-            String inputLine;
-            StringBuilder textoCsv = new StringBuilder();
-            while ((inputLine = in.readLine()) != null){
-                textoCsv.append(inputLine + "\n");
+            if (request.getParameter("acao").equals("inserir")) {
+                
+                URL url = new URL("http://socialmention.com/search?q=" + request.getParameter("busca") + "&t=all&f=csv");
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                String inputLine;
+                StringBuilder textoCsv = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    textoCsv.append(inputLine + "\n");
+                }
+
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Resultado da Consulta</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Consulta Realizada com Sucesso!</h1>");
+                out.println("</body>");
+                out.println("</html>");
             }
-            
-            
-            
-            
-            
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Resultado da Consulta</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Consulta Realizada com Sucesso!</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }catch (Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

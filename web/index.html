@@ -11,8 +11,10 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="Consulta.do">
+        <form action="Consulta.do" method="post">
+            <input type="hidden" name="acao" value="inserir"/>
             Busca: <input type="text" name="busca" maxlength="256" style="width:600px"/>
+            <input type="submit" value="Pesquisar"/>
         </form>
     </body>
 </html>
