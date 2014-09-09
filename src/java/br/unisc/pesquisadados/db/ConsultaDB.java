@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ConsultaDB {
         try {
             Connection conn = getConnection();
             PreparedStatement prep = conn.prepareStatement(sql);
-            prep.setDate(1, new java.sql.Date(consulta.getHora().getTime()));
+            prep.setTimestamp(1, new Timestamp(consulta.getHora().getTime()));
             prep.setString(2, consulta.getDadosCsv());
             prep.setString(3, consulta.getTextoConsultado());
             prep.execute();
@@ -74,7 +75,7 @@ public class ConsultaDB {
             while (rs.next()){
                 Consulta c = new Consulta();
                 c.setIdConsulta(rs.getInt("id_consulta"));
-                c.setHora(rs.getDate("hora"));
+                c.setHora(rs.getTimestamp("hora"));
                 c.setDadosCsv(rs.getString("dados_csv"));
                 c.setTextoConsultado(rs.getString("texto_consultado"));
                 

@@ -6,11 +6,13 @@
 package br.unisc.pesquisadados.web;
 
 import br.unisc.pesquisadados.db.ConsultaDB;
+import br.unisc.pesquisadados.model.Consulta;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,7 +52,13 @@ public class ConsultaServlet extends HttpServlet {
                 while ((inputLine = in.readLine()) != null) {
                     textoCsv.append(inputLine + "\n");
                 }
-
+                Consulta consulta = new Consulta();
+                consulta.setDadosCsv(textoCsv.toString());
+                consulta.setHora(new Date());
+                consulta.setTextoConsultado(request.getParameter("busca"));
+                
+                db.inserir(consulta);
+                
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");

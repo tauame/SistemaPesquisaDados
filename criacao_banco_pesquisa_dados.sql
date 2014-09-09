@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.5
--- Started on 2014-09-09 11:56:12 BRT
+-- Started on 2014-09-09 16:46:55 BRT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -62,9 +62,9 @@ SET default_with_oids = false;
 
 CREATE TABLE resultado_consulta (
     id_consulta integer NOT NULL,
-    hora time without time zone,
     dados_csv text,
-    texto_consultado character varying(256)
+    texto_consultado character varying(256),
+    hora timestamp without time zone
 );
 
 
@@ -123,7 +123,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2014-09-09 11:56:12 BRT
+-- Completed on 2014-09-09 16:46:55 BRT
 
 --
 -- PostgreSQL database dump complete
