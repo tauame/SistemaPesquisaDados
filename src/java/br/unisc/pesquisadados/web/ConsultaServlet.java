@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,40 +39,21 @@ public class ConsultaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try {
             
-            ConsultaDB db = new ConsultaDB();
+            
             String acao = request.getParameter("acao");
-            if (acao != null && acao.equals("inserir")) {
-                
-                URL url = new URL("http://socialmention.com/search?q=" + request.getParameter("busca") + "&t=all&f=csv");
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                String inputLine;
-                StringBuilder textoCsv = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    textoCsv.append(inputLine + "\n");
+            if (acao != null){
+                if (acao.equals("inserir")) {
+                    inserir(request, response);
+                }else if(acao.equals("deletar")){
+                    deletar(request, response);
+                }else{
+                    listar(request, response);
                 }
-                Consulta consulta = new Consulta();
-                consulta.setDadosCsv(textoCsv.toString());
-                consulta.setHora(new Date());
-                consulta.setTextoConsultado(request.getParameter("busca"));
-                
-                db.inserir(consulta);
-                
-                /* TODO output your page here. You may use following sample code. */
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Resultado da Consulta</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>Consulta Realizada com Sucesso!</h1>");
-                out.println("</body>");
-                out.println("</html>");
             }
 
-        } catch (Exception e) {
+        }catch(ClassNotFoundException e){
             e.printStackTrace();
         }
     }
@@ -115,4 +97,69 @@ public class ConsultaServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void inserir(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException {
+        
+        ConsultaDB db = new ConsultaDB();
+        PrintWriter out = response.getWriter();
+        URL url = new URL("http://socialmention.com/search?q=" + request.getParameter("busca") + "&t=all&f=csv");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        String inputLine;
+        StringBuilder textoCsv = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            textoCsv.append(inputLine + "\n");
+        }
+        in.close();
+        Consulta consulta = new Consulta();
+        consulta.setDadosCsv(textoCsv.toString());
+        consulta.setHora(new Date());
+        consulta.setTextoConsultado(request.getParameter("busca"));
+
+        db.inserir(consulta);
+
+        /* TODO output your page here. You may use following sample code. */
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Resultado da Consulta</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Consulta Realizada com Sucesso!</h1>");
+        out.println("<a href=\"index.html\">Início</a>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+    
+    private void listar(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, ServletException, IOException{
+        
+        ConsultaDB db = new ConsultaDB();
+        
+        List<Consulta> consultaList = db.listar();
+        
+        request.setAttribute("lista", consultaList);
+        request.getRequestDispatcher("listagem.jsp").forward(request, response);
+    }
+    
+    private void deletar(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException {
+    
+        ConsultaDB db = new ConsultaDB();
+        PrintWriter out = response.getWriter();
+
+        Integer codigo = Integer.parseInt(request.getParameter("id"));
+        
+        db.deletar(codigo);
+
+        /* TODO output your page here. You may use following sample code. */
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Exclusão de Consulta</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Consulta Excluída com Sucesso!</h1>");
+        out.println("<a href=\"index.html\">Início</a>");
+        out.println("<a href=\"Consulta.do?acao=listar\">Lista</a>");
+        out.println("</body>");
+        out.println("</html>");
+    }
 }

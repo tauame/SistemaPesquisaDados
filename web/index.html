@@ -15,11 +15,8 @@ and open the template in the editor.
             <input type="hidden" name="acao" value="inserir"/>
             Busca: <input type="text" name="busca" maxlength="256" style="width:600px"/>
             <input type="submit" value="Pesquisar"/>
-        </form>
-        
-        <form action="Consulta.do" method="POST">
-            <input type="hidden" name="acao" value="listar"/>
-            <input type="submit" value="Listar"/>
+            <br/>
+            <input type="submit" formaction="Consulta.do?acao=listar" value="Listar"/>
         </form>
     </body>
 </html>
