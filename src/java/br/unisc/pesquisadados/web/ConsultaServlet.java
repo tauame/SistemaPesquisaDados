@@ -52,6 +52,7 @@ public class ConsultaServlet extends HttpServlet {
                 while ((inputLine = in.readLine()) != null) {
                     textoCsv.append(inputLine + "\n");
                 }
+                in.close();
                 Consulta consulta = new Consulta();
                 consulta.setDadosCsv(textoCsv.toString());
                 consulta.setHora(new Date());
