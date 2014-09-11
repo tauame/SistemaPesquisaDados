@@ -40,7 +40,7 @@ public class ConsultaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            
+            request.setCharacterEncoding("UTF-8");
             
             String acao = request.getParameter("acao");
             if (acao != null){
@@ -115,7 +115,8 @@ public class ConsultaServlet extends HttpServlet {
         
         ConsultaDB db = new ConsultaDB();
         PrintWriter out = response.getWriter();
-        URL url = new URL("http://socialmention.com/search?q=" + request.getParameter("busca") + "&t=all&f=csv");
+        String busca = request.getParameter("busca");
+        URL url = new URL("http://socialmention.com/search?q=" + busca.replace(" ", "+") + "&t=all&f=csv");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         String inputLine;
