@@ -1,9 +1,11 @@
+<%-- 
+    Document   : index
+    Created on : Sep 11, 2014, 1:11:00 PM
+    Author     : tauame
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Pesquisa de Dados em Mídias Sociais</title>

@@ -21,9 +21,22 @@
     </head>
     <body>
         <h1>Resultado da consulta por "<% out.print(consulta.getTextoConsultado()); %>"</h1>
-        <a href="/">Início</a>
-        <a href="Consulta.do?acao=listar">Lista</a>
+        
         <form method="POST">
+            <input type="hidden" name="id" value="<% out.print(consulta.getIdConsulta()); %>"/>
+            Filtrar por: <input type="text" name="filtro" maxlength="100" style="width:300px"/>
+            <input type="submit" value="Filtrar"/>
+            <br>
+            <a href="index.jsp">Início</a>
+            <a href="Consulta.do?acao=listar">Lista</a>
+            <br>
+            <%
+                String filtro = request.getParameter("filtro");
+                if(filtro!=null && !filtro.equals("")){
+                    out.println("Exibindo dados filtrando por: \"" + filtro + "\"<br>");
+                }
+            %>
+        
         <table border="1">
             <thead>
                 <tr>
@@ -50,6 +63,12 @@
                     String linha = in.readLine();
                     while(linha != null){
                         linha = linha.substring(1, linha.length()-1);
+                        if(filtro!=null && !filtro.equals("")){
+                            if(!linha.toUpperCase().contains(filtro.toUpperCase())){
+                                linha = in.readLine();
+                                continue;
+                            }
+                        }
                         colunas = linha.split("\",\"");
                         
                         out.println("<tr>");
