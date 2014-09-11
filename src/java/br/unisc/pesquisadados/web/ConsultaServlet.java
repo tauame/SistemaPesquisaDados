@@ -125,7 +125,7 @@ public class ConsultaServlet extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
         out.println("<h1>Consulta Realizada com Sucesso!</h1>");
-        out.println("<a href=\"index.html\">Início</a>");
+        out.println("<a href=\"/\">Início</a>");
         out.println("</body>");
         out.println("</html>");
     }
@@ -157,7 +157,7 @@ public class ConsultaServlet extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
         out.println("<h1>Consulta Excluída com Sucesso!</h1>");
-        out.println("<a href=\"index.html\">Início</a>");
+        out.println("<a href=\"/\">Início</a>");
         out.println("<a href=\"Consulta.do?acao=listar\">Lista</a>");
         out.println("</body>");
         out.println("</html>");
