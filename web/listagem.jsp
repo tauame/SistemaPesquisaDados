@@ -47,7 +47,7 @@
                             out.println(consultaList.get(i).getIdConsulta());
                             out.println("</td>");
                             out.println("<td style=\"width:500px\">");
-                            out.println(consultaList.get(i).getTextoConsultado());
+                            out.println("<a href=\"Consulta.do?acao=exibir&id="+consultaList.get(i).getIdConsulta()+"\">"+consultaList.get(i).getTextoConsultado()+"</a>");
                             out.println("</td>");
                             out.println("<td style=\"width:200px\">");
                             out.println(DateFormat.getDateTimeInstance().format(consultaList.get(i).getHora()));

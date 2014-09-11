@@ -48,6 +48,8 @@ public class ConsultaServlet extends HttpServlet {
                     inserir(request, response);
                 }else if(acao.equals("deletar")){
                     deletar(request, response);
+                }else if(acao.equals("exibir")){
+                    exibir(request, response);
                 }else{
                     listar(request, response);
                 }
@@ -97,7 +99,19 @@ public class ConsultaServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void inserir(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException {
+     private void exibir(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, ServletException {
+        ConsultaDB db = new ConsultaDB();
+
+        Integer codigo = Integer.parseInt(request.getParameter("id"));
+        
+        Consulta consulta = db.buscar(codigo);
+
+        request.setAttribute("consulta", consulta);
+        request.getRequestDispatcher("exibeConsulta.jsp").forward(request, response);
+     }
+     
+    
+    private void inserir(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, ServletException {
         
         ConsultaDB db = new ConsultaDB();
         PrintWriter out = response.getWriter();
@@ -117,17 +131,8 @@ public class ConsultaServlet extends HttpServlet {
 
         db.inserir(consulta);
 
-        /* TODO output your page here. You may use following sample code. */
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Resultado da Consulta</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Consulta Realizada com Sucesso!</h1>");
-        out.println("<a href=\"/\">Início</a>");
-        out.println("</body>");
-        out.println("</html>");
+        request.setAttribute("consulta", consulta);
+        request.getRequestDispatcher("exibeConsulta.jsp").forward(request, response);
     }
     
     private void listar(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, ServletException, IOException{

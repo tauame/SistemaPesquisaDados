@@ -87,4 +87,27 @@ public class ConsultaDB {
         
         return consultaList;
     }
+
+    public Consulta buscar(Integer codigo) {
+        String sql = " select * from resultado_consulta where id_consulta = ?";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement prep = conn.prepareStatement(sql);
+            prep.setInt(1, codigo);
+            ResultSet rs = prep.executeQuery();
+            
+            while (rs.next()){
+                Consulta c = new Consulta();
+                c.setIdConsulta(rs.getInt("id_consulta"));
+                c.setHora(rs.getTimestamp("hora"));
+                c.setDadosCsv(rs.getString("dados_csv"));
+                c.setTextoConsultado(rs.getString("texto_consultado"));
+                
+                return c;
+            }      
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }
